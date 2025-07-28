@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
-import 'menu_action_handler.dart';
+import 'menu_constants.dart';
+import 'menu_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,11 +59,11 @@ class MenuBarWidget extends StatelessWidget {
             SubmenuButton(
               menuChildren: [
                 MenuItemButton(
-                  onPressed: MenuActionHandler.onOpenJson,
+                  onPressed: () => MenuRouter.handle(MenuActions.openJson),
                   child: const Text('Json'),
                 ),
                 MenuItemButton(
-                  onPressed: MenuActionHandler.onOpenVault,
+                  onPressed: () => MenuRouter.handle(MenuActions.openVault),
                   child: const Text('Vault'),
                 ),
               ],
@@ -71,18 +72,20 @@ class MenuBarWidget extends StatelessWidget {
             SubmenuButton(
               menuChildren: [
                 MenuItemButton(
-                  onPressed: MenuActionHandler.onExportPlaceholder1,
+                  onPressed: () =>
+                      MenuRouter.handle(MenuActions.exportPlaceholder1),
                   child: const Text('Placeholder1'),
                 ),
                 MenuItemButton(
-                  onPressed: MenuActionHandler.onExportPlaceholder2,
+                  onPressed: () =>
+                      MenuRouter.handle(MenuActions.exportPlaceholder2),
                   child: const Text('Placeholder2'),
                 ),
               ],
               child: const Text('Export'),
             ),
             MenuItemButton(
-              onPressed: MenuActionHandler.onExit,
+              onPressed: () => MenuRouter.handle(MenuActions.exitApp),
               child: const Text('Exit'),
             ),
           ],
@@ -91,7 +94,7 @@ class MenuBarWidget extends StatelessWidget {
         SubmenuButton(
           menuChildren: [
             MenuItemButton(
-              onPressed: MenuActionHandler.onViewContext,
+              onPressed: () => MenuRouter.handle(MenuActions.viewContext),
               child: const Text('Context'),
             ),
           ],
@@ -102,11 +105,13 @@ class MenuBarWidget extends StatelessWidget {
             SubmenuButton(
               menuChildren: [
                 MenuItemButton(
-                  onPressed: MenuActionHandler.onSelectModelGPT,
+                  onPressed: () =>
+                      MenuRouter.handle(MenuActions.selectModelGpt),
                   child: const Text('GPT 3.5-turbo'),
                 ),
                 MenuItemButton(
-                  onPressed: MenuActionHandler.onSelectModelGemini,
+                  onPressed: () =>
+                      MenuRouter.handle(MenuActions.selectModelGemini),
                   child: const Text('Gemini 1.5'),
                 ),
               ],

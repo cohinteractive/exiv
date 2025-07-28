@@ -2,3 +2,4 @@
 [2507282231][d81bbc][FTR] Implement main window with menu bar
 [2507282257][57b6fb][REF] Centralize menu actions
 [2507282304][44ce88][FTR][REF] Add MenuActions constants and refactor handler
+[2507282329][a439c0][FTR][REF] Add MenuRouter to dispatch menu events
