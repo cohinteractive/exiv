@@ -27,11 +27,6 @@ linux/flutter/
 macos/Flutter/GeneratedPluginRegistrant.swift
 windows/flutter/
 
-# Firebase files
-firebase-debug.log
-**/google-services.json
-**/GoogleService-Info.plist
-
 # Environment files
 .env
 .env.*
@@ -45,8 +40,8 @@ codex.env
 .DS_Store
 pglite-debug.log
 
-# Database Seeder
-coachtracker-seeder/
-
 tools/
 package-lock.json
+
+# test files
+test_raw.json
