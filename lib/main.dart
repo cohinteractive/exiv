@@ -32,8 +32,24 @@ class CodexVaultApp extends StatelessWidget {
   }
 }
 
-class ScaffoldWithMenu extends StatelessWidget {
+class ScaffoldWithMenu extends StatefulWidget {
   const ScaffoldWithMenu({super.key});
+
+  @override
+  State<ScaffoldWithMenu> createState() => _ScaffoldWithMenuState();
+
+}
+
+class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
+  final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _filterController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _filterController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +58,46 @@ class ScaffoldWithMenu extends StatelessWidget {
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: const MenuBarWidget(),
       ),
-      body: const Center(child: Text('CodexVault UI Placeholder')),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              height: 48,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _searchController,
+                      onChanged: (value) => print('Search: $value'),
+                      decoration: const InputDecoration(
+                        labelText: 'Search...',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: TextField(
+                      controller: _filterController,
+                      onChanged: (value) => print('Filter: $value'),
+                      decoration: const InputDecoration(
+                        labelText: 'Filter...',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const Expanded(
+            child: Center(
+              child: Text('CodexVault UI Placeholder'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
