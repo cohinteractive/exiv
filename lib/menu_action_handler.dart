@@ -1,41 +1,43 @@
+import 'menu_constants.dart';
+
 class MenuActionHandler {
   static void onOpenJson() {
     // ignore: avoid_print
-    print('Opening JSON...');
+    print(MenuActions.openJson);
   }
 
   static void onOpenVault() {
     // ignore: avoid_print
-    print('Opening Vault...');
+    print(MenuActions.openVault);
   }
 
   static void onExportPlaceholder1() {
     // ignore: avoid_print
-    print('Exporting Placeholder1...');
+    print(MenuActions.exportPlaceholder1);
   }
 
   static void onExportPlaceholder2() {
     // ignore: avoid_print
-    print('Exporting Placeholder2...');
+    print(MenuActions.exportPlaceholder2);
   }
 
   static void onExit() {
     // ignore: avoid_print
-    print('Exiting...');
+    print(MenuActions.exitApp);
   }
 
   static void onViewContext() {
     // ignore: avoid_print
-    print('Viewing Context...');
+    print(MenuActions.viewContext);
   }
 
   static void onSelectModelGPT() {
     // ignore: avoid_print
-    print('Selected GPT 3.5-turbo...');
+    print(MenuActions.selectModelGpt);
   }
 
   static void onSelectModelGemini() {
     // ignore: avoid_print
-    print('Selected Gemini 1.5...');
+    print(MenuActions.selectModelGemini);
   }
 }
