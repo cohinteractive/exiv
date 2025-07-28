@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
+import 'menu_action_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,11 +49,6 @@ class ScaffoldWithMenu extends StatelessWidget {
 class MenuBarWidget extends StatelessWidget {
   const MenuBarWidget({super.key});
 
-  void _printAction(String action) {
-    // ignore: avoid_print
-    print('Selected: $action');
-  }
-
   @override
   Widget build(BuildContext context) {
     return MenuBar(
@@ -62,11 +58,11 @@ class MenuBarWidget extends StatelessWidget {
             SubmenuButton(
               menuChildren: [
                 MenuItemButton(
-                  onPressed: () => _printAction('Open Json'),
+                  onPressed: MenuActionHandler.onOpenJson,
                   child: const Text('Json'),
                 ),
                 MenuItemButton(
-                  onPressed: () => _printAction('Open Vault'),
+                  onPressed: MenuActionHandler.onOpenVault,
                   child: const Text('Vault'),
                 ),
               ],
@@ -75,18 +71,18 @@ class MenuBarWidget extends StatelessWidget {
             SubmenuButton(
               menuChildren: [
                 MenuItemButton(
-                  onPressed: () => _printAction('Export Placeholder1'),
+                  onPressed: MenuActionHandler.onExportPlaceholder1,
                   child: const Text('Placeholder1'),
                 ),
                 MenuItemButton(
-                  onPressed: () => _printAction('Export Placeholder2'),
+                  onPressed: MenuActionHandler.onExportPlaceholder2,
                   child: const Text('Placeholder2'),
                 ),
               ],
               child: const Text('Export'),
             ),
             MenuItemButton(
-              onPressed: () => _printAction('Exit'),
+              onPressed: MenuActionHandler.onExit,
               child: const Text('Exit'),
             ),
           ],
@@ -95,7 +91,7 @@ class MenuBarWidget extends StatelessWidget {
         SubmenuButton(
           menuChildren: [
             MenuItemButton(
-              onPressed: () => _printAction('View Context'),
+              onPressed: MenuActionHandler.onViewContext,
               child: const Text('Context'),
             ),
           ],
@@ -106,11 +102,11 @@ class MenuBarWidget extends StatelessWidget {
             SubmenuButton(
               menuChildren: [
                 MenuItemButton(
-                  onPressed: () => _printAction('Selected GPT 3.5-turbo'),
+                  onPressed: MenuActionHandler.onSelectModelGPT,
                   child: const Text('GPT 3.5-turbo'),
                 ),
                 MenuItemButton(
-                  onPressed: () => _printAction('Selected Gemini 1.5'),
+                  onPressed: MenuActionHandler.onSelectModelGemini,
                   child: const Text('Gemini 1.5'),
                 ),
               ],
