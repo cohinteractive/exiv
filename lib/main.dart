@@ -4,9 +4,7 @@ import 'menu_constants.dart';
 import 'menu_router.dart';
 import 'search_filter_controller.dart';
 import 'filter_state.dart';
-import 'llm_state.dart';
-import 'conversation_state.dart';
-import 'selection_state.dart';
+import 'state/global_state.dart';
 import 'ui/widgets/resizable_widget.dart';
 
 void main() async {
@@ -171,7 +169,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                           title: const Text('Vault A'),
                           trailing: const Icon(Icons.keyboard_arrow_down),
                           onTap: () =>
-                              selectedItemLabel.value = 'Selected: Vault A',
+                              GlobalState.selectedItemLabel.value = 'Selected: Vault A',
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 16),
@@ -179,7 +177,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                             dense: true,
                             title: const Text('Conversation A1'),
                             trailing: const Icon(Icons.chevron_right),
-                            onTap: () => selectedItemLabel.value =
+                            onTap: () => GlobalState.selectedItemLabel.value =
                                 'Selected: Conversation A1',
                           ),
                         ),
@@ -189,7 +187,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                             dense: true,
                             title: const Text('Conversation A2'),
                             trailing: const Icon(Icons.chevron_right),
-                            onTap: () => selectedItemLabel.value =
+                            onTap: () => GlobalState.selectedItemLabel.value =
                                 'Selected: Conversation A2',
                           ),
                         ),
@@ -198,7 +196,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                           title: const Text('Vault B'),
                           trailing: const Icon(Icons.keyboard_arrow_down),
                           onTap: () =>
-                              selectedItemLabel.value = 'Selected: Vault B',
+                              GlobalState.selectedItemLabel.value = 'Selected: Vault B',
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 16),
@@ -206,7 +204,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                             dense: true,
                             title: const Text('Conversation B1'),
                             trailing: const Icon(Icons.chevron_right),
-                            onTap: () => selectedItemLabel.value =
+                            onTap: () => GlobalState.selectedItemLabel.value =
                                 'Selected: Conversation B1',
                           ),
                         ),
@@ -304,7 +302,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
               child: Row(
                 children: [
                   ValueListenableBuilder<LLMModel>(
-                    valueListenable: currentModel,
+                    valueListenable: GlobalState.currentModel,
                     builder: (context, value, child) {
                       final label = value == LLMModel.gpt35
                           ? 'Model: GPT 3.5-turbo'
@@ -319,7 +317,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                   const VerticalDivider(width: 1),
                   const SizedBox(width: 12),
                   ValueListenableBuilder<int>(
-                    valueListenable: conversationCount,
+                    valueListenable: GlobalState.conversationCount,
                     builder: (context, count, child) {
                       return Text(
                         'Conversations: $count',
@@ -331,7 +329,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                   const VerticalDivider(width: 1),
                   const SizedBox(width: 12),
                   ValueListenableBuilder<String>(
-                    valueListenable: selectedItemLabel,
+                    valueListenable: GlobalState.selectedItemLabel,
                     builder: (context, label, child) {
                       return Text(
                         label,
