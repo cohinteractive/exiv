@@ -7,6 +7,7 @@ import 'filter_state.dart';
 import 'state/global_state.dart';
 import 'data/mock_data_loader.dart';
 import 'ui/widgets/resizable_widget.dart';
+import 'package:intl/intl.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -212,35 +213,39 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                                       vertical: 4, horizontal: 8),
                                   child: Text(
                                     'Vaults',
-                                    style: Theme.of(context).textTheme.labelLarge,
+                                    style:
+                                        Theme.of(context).textTheme.labelLarge,
                                   ),
                                 ),
-                                for (final vault in vaults) ...[
-                                  ListTile(
-                                    dense: true,
+                                for (final vault in vaults)
+                                  ExpansionTile(
                                     leading: const Icon(Icons.folder),
                                     title: Text(vault.name),
-                                    trailing:
-                                        const Icon(Icons.keyboard_arrow_down),
-                                    onTap: () => GlobalState.selectedItemLabel
-                                        .value = 'Selected: ${vault.name}',
+                                    onExpansionChanged: (expanded) {
+                                      if (expanded) {
+                                        GlobalState.selectedItemLabel.value =
+                                            'Selected: ${vault.name}';
+                                      }
+                                    },
+                                    children: [
+                                      for (final convo in vault.conversations)
+                                        ListTile(
+                                          dense: true,
+                                          leading: const Icon(Icons.chat),
+                                          title: Text(convo.title),
+                                          subtitle: Text(DateFormat('yyyy-MM-dd HH:mm')
+                                              .format(convo.timestamp)),
+                                          trailing:
+                                              const Icon(Icons.chevron_right),
+                                          onTap: () {
+                                            GlobalState.selectedItemLabel.value =
+                                                'Selected: ${convo.title}';
+                                            GlobalState.selectedConversation
+                                                .value = convo;
+                                          },
+                                        ),
+                                    ],
                                   ),
-                                  for (final convo in vault.conversations)
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 16),
-                                      child: ListTile(
-                                        dense: true,
-                                        leading: const Icon(Icons.chat),
-                                        title: Text(convo.title),
-                                        trailing:
-                                            const Icon(Icons.chevron_right),
-                                        onTap: () => GlobalState
-                                            .selectedItemLabel
-                                            .value =
-                                            'Selected: ${convo.title}',
-                                      ),
-                                    ),
-                                ],
                               ],
                             );
                           },

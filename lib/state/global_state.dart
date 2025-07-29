@@ -28,4 +28,8 @@ class GlobalState {
   /// Loaded vaults and their conversations.
   static final ValueNotifier<List<Vault>> conversationVaults =
       ValueNotifier<List<Vault>>([]);
+
+  /// Currently selected conversation from the navigation panel.
+  static final ValueNotifier<Conversation?> selectedConversation =
+      ValueNotifier<Conversation?>(null);
 }
