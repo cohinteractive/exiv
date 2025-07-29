@@ -4,6 +4,7 @@ import 'menu_constants.dart';
 import 'menu_router.dart';
 import 'search_filter_controller.dart';
 import 'filter_state.dart';
+import 'ui/widgets/resizable_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -150,12 +151,15 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
           Expanded(
             child: Row(
               children: [
-                Container(
-                  width: 300,
-                  margin: const EdgeInsets.all(8),
-                  padding: const EdgeInsets.all(8),
-                  color: Theme.of(context).colorScheme.surfaceVariant,
-                  child: const Center(child: Text('Navigation Panel')),
+                ResizableWidget(
+                  minWidth: 200,
+                  maxWidth: 500,
+                  child: Container(
+                    margin: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
+                    color: Theme.of(context).colorScheme.surfaceVariant,
+                    child: const Center(child: Text('Navigation Panel')),
+                  ),
                 ),
                 Expanded(
                   child: Container(
