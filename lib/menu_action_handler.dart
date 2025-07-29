@@ -1,18 +1,17 @@
 import 'menu_constants.dart';
-import 'llm_state.dart';
-import 'conversation_state.dart';
+import 'state/global_state.dart';
 
 class MenuActionHandler {
   static void onOpenJson() {
     // ignore: avoid_print
     print(MenuActions.openJson);
-    conversationCount.value = 42;
+    GlobalState.conversationCount.value = 42;
   }
 
   static void onOpenVault() {
     // ignore: avoid_print
     print(MenuActions.openVault);
-    conversationCount.value = 42;
+    GlobalState.conversationCount.value = 42;
   }
 
   static void onExportPlaceholder1() {
@@ -38,12 +37,12 @@ class MenuActionHandler {
   static void onSelectModelGPT() {
     // ignore: avoid_print
     print(MenuActions.selectModelGpt);
-    currentModel.value = LLMModel.gpt35;
+    GlobalState.currentModel.value = LLMModel.gpt35;
   }
 
   static void onSelectModelGemini() {
     // ignore: avoid_print
     print(MenuActions.selectModelGemini);
-    currentModel.value = LLMModel.gemini15;
+    GlobalState.currentModel.value = LLMModel.gemini15;
   }
 }
