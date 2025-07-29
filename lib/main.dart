@@ -61,33 +61,54 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              height: 48,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged: (value) => print('Search: $value'),
-                      decoration: const InputDecoration(
-                        labelText: 'Search...',
-                        border: OutlineInputBorder(),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Material(
+              elevation: 1,
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                height: 48,
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        flex: 1,
+                        child: TextField(
+                          controller: _searchController,
+                          onChanged: (value) => print('Search: $value'),
+                          decoration: InputDecoration(
+                            hintText: 'Search...',
+                            filled: true,
+                            fillColor: Theme.of(context).colorScheme.surfaceVariant,
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 12),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: TextField(
-                      controller: _filterController,
-                      onChanged: (value) => print('Filter: $value'),
-                      decoration: const InputDecoration(
-                        labelText: 'Filter...',
-                        border: OutlineInputBorder(),
+                      const SizedBox(width: 12),
+                      Flexible(
+                        flex: 1,
+                        child: TextField(
+                          controller: _filterController,
+                          onChanged: (value) => print('Filter: $value'),
+                          decoration: InputDecoration(
+                            hintText: 'Filter...',
+                            filled: true,
+                            fillColor: Theme.of(context).colorScheme.surfaceVariant,
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 12),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
