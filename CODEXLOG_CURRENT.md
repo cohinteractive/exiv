@@ -10,3 +10,4 @@
 [2507290125][8eeca17][FTR] Make navigation panel resizable
 [2507290202][ec9b13][FTR] Populate navigation and detail panels with mock content
 [2507290209][6fa01ca][FTR] Add status bar pinned to bottom
+[2507290530][e8a240][FTR] Display selected model in status bar

@@ -4,6 +4,7 @@ import 'menu_constants.dart';
 import 'menu_router.dart';
 import 'search_filter_controller.dart';
 import 'filter_state.dart';
+import 'llm_state.dart';
 import 'ui/widgets/resizable_widget.dart';
 
 void main() async {
@@ -290,11 +291,21 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Row(
                 children: [
-                  Text(
-                    'Model: <placeholder>',
-                    style: Theme.of(context).textTheme.labelSmall,
+                  ValueListenableBuilder<LLMModel>(
+                    valueListenable: currentModel,
+                    builder: (context, value, child) {
+                      final label = value == LLMModel.gpt35
+                          ? 'Model: GPT 3.5-turbo'
+                          : 'Model: Gemini 1.5';
+                      return Text(
+                        label,
+                        style: Theme.of(context).textTheme.labelSmall,
+                      );
+                    },
                   ),
-                  const Spacer(),
+                  const SizedBox(width: 12),
+                  const VerticalDivider(width: 1),
+                  const SizedBox(width: 12),
                   Text(
                     'Conversations: <placeholder>',
                     style: Theme.of(context).textTheme.labelSmall,
