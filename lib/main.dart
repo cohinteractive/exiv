@@ -162,53 +162,108 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                     margin: const EdgeInsets.all(8),
                     padding: const EdgeInsets.all(8),
                     color: Theme.of(context).colorScheme.surfaceVariant,
-                    child: ListView(
-                      children: [
-                        ListTile(
-                          dense: true,
-                          title: const Text('Vault A'),
-                          trailing: const Icon(Icons.keyboard_arrow_down),
-                          onTap: () =>
-                              GlobalState.selectedItemLabel.value = 'Selected: Vault A',
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: ListTile(
-                            dense: true,
-                            title: const Text('Conversation A1'),
-                            trailing: const Icon(Icons.chevron_right),
-                            onTap: () => GlobalState.selectedItemLabel.value =
-                                'Selected: Conversation A1',
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: ListTile(
-                            dense: true,
-                            title: const Text('Conversation A2'),
-                            trailing: const Icon(Icons.chevron_right),
-                            onTap: () => GlobalState.selectedItemLabel.value =
-                                'Selected: Conversation A2',
-                          ),
-                        ),
-                        ListTile(
-                          dense: true,
-                          title: const Text('Vault B'),
-                          trailing: const Icon(Icons.keyboard_arrow_down),
-                          onTap: () =>
-                              GlobalState.selectedItemLabel.value = 'Selected: Vault B',
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: ListTile(
-                            dense: true,
-                            title: const Text('Conversation B1'),
-                            trailing: const Icon(Icons.chevron_right),
-                            onTap: () => GlobalState.selectedItemLabel.value =
-                                'Selected: Conversation B1',
-                          ),
-                        ),
-                      ],
+                    child: ValueListenableBuilder<ViewMode>(
+                      valueListenable: GlobalState.currentViewMode,
+                      builder: (context, mode, child) {
+                        if (mode == ViewMode.context) {
+                          return ListView(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 4, horizontal: 8),
+                                child: Text(
+                                  'Context Blocks',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge,
+                                ),
+                              ),
+                              ListTile(
+                                dense: true,
+                                leading: const Icon(Icons.description_outlined),
+                                title: const Text('Context Block A'),
+                                onTap: () => GlobalState.selectedItemLabel.value =
+                                    'Selected: Context Block A',
+                              ),
+                              ListTile(
+                                dense: true,
+                                leading: const Icon(Icons.description_outlined),
+                                title: const Text('Context Block B'),
+                                onTap: () => GlobalState.selectedItemLabel.value =
+                                    'Selected: Context Block B',
+                              ),
+                            ],
+                          );
+                        }
+                        return ListView(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 8),
+                              child: Text(
+                                'Vaults',
+                                style:
+                                    Theme.of(context).textTheme.labelLarge,
+                              ),
+                            ),
+                            ListTile(
+                              dense: true,
+                              leading: const Icon(Icons.folder),
+                              title: const Text('Vault A'),
+                              trailing: const Icon(Icons.keyboard_arrow_down),
+                              onTap: () => GlobalState.selectedItemLabel.value =
+                                  'Selected: Vault A',
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: ListTile(
+                                dense: true,
+                                leading: const Icon(Icons.chat),
+                                title: const Text('Conversation A1'),
+                                trailing: const Icon(Icons.chevron_right),
+                                onTap: () => GlobalState
+                                    .selectedItemLabel
+                                    .value =
+                                    'Selected: Conversation A1',
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: ListTile(
+                                dense: true,
+                                leading: const Icon(Icons.chat),
+                                title: const Text('Conversation A2'),
+                                trailing: const Icon(Icons.chevron_right),
+                                onTap: () => GlobalState
+                                    .selectedItemLabel
+                                    .value =
+                                    'Selected: Conversation A2',
+                              ),
+                            ),
+                            ListTile(
+                              dense: true,
+                              leading: const Icon(Icons.folder),
+                              title: const Text('Vault B'),
+                              trailing: const Icon(Icons.keyboard_arrow_down),
+                              onTap: () => GlobalState.selectedItemLabel.value =
+                                  'Selected: Vault B',
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: ListTile(
+                                dense: true,
+                                leading: const Icon(Icons.chat),
+                                title: const Text('Conversation B1'),
+                                trailing: const Icon(Icons.chevron_right),
+                                onTap: () => GlobalState
+                                    .selectedItemLabel
+                                    .value =
+                                    'Selected: Conversation B1',
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ),
