@@ -1,4 +1,5 @@
 import 'menu_constants.dart';
+import 'llm_state.dart';
 
 class MenuActionHandler {
   static void onOpenJson() {
@@ -34,10 +35,12 @@ class MenuActionHandler {
   static void onSelectModelGPT() {
     // ignore: avoid_print
     print(MenuActions.selectModelGpt);
+    currentModel.value = LLMModel.gpt35;
   }
 
   static void onSelectModelGemini() {
     // ignore: avoid_print
     print(MenuActions.selectModelGemini);
+    currentModel.value = LLMModel.gemini15;
   }
 }
