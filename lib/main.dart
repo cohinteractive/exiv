@@ -218,14 +218,25 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                     padding: const EdgeInsets.all(8),
                     color: Theme.of(context).colorScheme.surfaceVariant,
                     child: Center(
-                      child: ValueListenableBuilder<ViewMode>(
-                        valueListenable: GlobalState.currentViewMode,
-                        builder: (context, mode, child) {
-                          final text =
-                              mode == ViewMode.context ? 'Viewing Context Mode' : 'Viewing All Items';
-                          return Text(
-                            text,
-                            style: Theme.of(context).textTheme.titleMedium,
+                      child: ValueListenableBuilder<String>(
+                        valueListenable: GlobalState.selectedItemLabel,
+                        builder: (context, label, child) {
+                          return Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    label,
+                                    style: Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  const Text('Conversation preview placeholder.'),
+                                ],
+                              ),
+                            ),
                           );
                         },
                       ),
