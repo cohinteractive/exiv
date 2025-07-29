@@ -60,7 +60,10 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
       ),
       body: Column(
         children: [
-          Padding(
+          Expanded(
+            child: Column(
+              children: [
+                Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Material(
               elevation: 1,
@@ -148,9 +151,9 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
               ),
             ),
           ),
-          Expanded(
-            child: Row(
-              children: [
+                Expanded(
+                  child: Row(
+                    children: [
                 ResizableWidget(
                   minWidth: 200,
                   maxWidth: 500,
@@ -268,7 +271,36 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                     ),
                   ),
                 ),
+                    ],
+                  ),
+                ),
               ],
+            ),
+          ),
+          Container(
+            height: 30,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceVariant,
+              border: Border(
+                top: BorderSide(color: Theme.of(context).dividerColor),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                children: [
+                  Text(
+                    'Model: <placeholder>',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                  const Spacer(),
+                  Text(
+                    'Conversations: <placeholder>',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
