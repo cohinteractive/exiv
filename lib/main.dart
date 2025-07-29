@@ -147,9 +147,25 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
               ),
             ),
           ),
-          const Expanded(
-            child: Center(
-              child: Text('CodexVault UI Placeholder'),
+          Expanded(
+            child: Row(
+              children: [
+                Container(
+                  width: 300,
+                  margin: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
+                  color: Theme.of(context).colorScheme.surfaceVariant,
+                  child: const Center(child: Text('Navigation Panel')),
+                ),
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
+                    color: Theme.of(context).colorScheme.surfaceVariant,
+                    child: const Center(child: Text('Detail Panel')),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
