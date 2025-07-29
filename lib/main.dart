@@ -6,6 +6,7 @@ import 'search_filter_controller.dart';
 import 'filter_state.dart';
 import 'llm_state.dart';
 import 'conversation_state.dart';
+import 'selection_state.dart';
 import 'ui/widgets/resizable_widget.dart';
 
 void main() async {
@@ -164,39 +165,49 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                     padding: const EdgeInsets.all(8),
                     color: Theme.of(context).colorScheme.surfaceVariant,
                     child: ListView(
-                      children: const [
+                      children: [
                         ListTile(
                           dense: true,
-                          title: Text('Vault A'),
-                          trailing: Icon(Icons.keyboard_arrow_down),
+                          title: const Text('Vault A'),
+                          trailing: const Icon(Icons.keyboard_arrow_down),
+                          onTap: () =>
+                              selectedItemLabel.value = 'Selected: Vault A',
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 16),
+                          padding: const EdgeInsets.only(left: 16),
                           child: ListTile(
                             dense: true,
-                            title: Text('Conversation A1'),
-                            trailing: Icon(Icons.chevron_right),
+                            title: const Text('Conversation A1'),
+                            trailing: const Icon(Icons.chevron_right),
+                            onTap: () => selectedItemLabel.value =
+                                'Selected: Conversation A1',
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 16),
+                          padding: const EdgeInsets.only(left: 16),
                           child: ListTile(
                             dense: true,
-                            title: Text('Conversation A2'),
-                            trailing: Icon(Icons.chevron_right),
+                            title: const Text('Conversation A2'),
+                            trailing: const Icon(Icons.chevron_right),
+                            onTap: () => selectedItemLabel.value =
+                                'Selected: Conversation A2',
                           ),
                         ),
                         ListTile(
                           dense: true,
-                          title: Text('Vault B'),
-                          trailing: Icon(Icons.keyboard_arrow_down),
+                          title: const Text('Vault B'),
+                          trailing: const Icon(Icons.keyboard_arrow_down),
+                          onTap: () =>
+                              selectedItemLabel.value = 'Selected: Vault B',
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 16),
+                          padding: const EdgeInsets.only(left: 16),
                           child: ListTile(
                             dense: true,
-                            title: Text('Conversation B1'),
-                            trailing: Icon(Icons.chevron_right),
+                            title: const Text('Conversation B1'),
+                            trailing: const Icon(Icons.chevron_right),
+                            onTap: () => selectedItemLabel.value =
+                                'Selected: Conversation B1',
                           ),
                         ),
                       ],
@@ -312,6 +323,18 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                     builder: (context, count, child) {
                       return Text(
                         'Conversations: $count',
+                        style: Theme.of(context).textTheme.labelSmall,
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 12),
+                  const VerticalDivider(width: 1),
+                  const SizedBox(width: 12),
+                  ValueListenableBuilder<String>(
+                    valueListenable: selectedItemLabel,
+                    builder: (context, label, child) {
+                      return Text(
+                        label,
                         style: Theme.of(context).textTheme.labelSmall,
                       );
                     },
