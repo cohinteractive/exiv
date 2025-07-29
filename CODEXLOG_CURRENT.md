@@ -11,3 +11,4 @@
 [2507290202][ec9b13][FTR] Populate navigation and detail panels with mock content
 [2507290209][6fa01ca][FTR] Add status bar pinned to bottom
 [2507290530][e8a240][FTR] Display selected model in status bar
+[2507290745][eb1e2b6][FTR] Add selection state and status bar updater
