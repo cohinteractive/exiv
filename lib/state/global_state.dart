@@ -32,4 +32,8 @@ class GlobalState {
   /// Currently selected conversation from the navigation panel.
   static final ValueNotifier<Conversation?> selectedConversation =
       ValueNotifier<Conversation?>(null);
+
+  /// Title of the conversation currently hovered in the navigation panel.
+  static final ValueNotifier<String?> hoveredConversationTitle =
+      ValueNotifier<String?>(null);
 }
