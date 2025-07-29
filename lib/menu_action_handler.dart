@@ -1,15 +1,18 @@
 import 'menu_constants.dart';
 import 'llm_state.dart';
+import 'conversation_state.dart';
 
 class MenuActionHandler {
   static void onOpenJson() {
     // ignore: avoid_print
     print(MenuActions.openJson);
+    conversationCount.value = 42;
   }
 
   static void onOpenVault() {
     // ignore: avoid_print
     print(MenuActions.openVault);
+    conversationCount.value = 42;
   }
 
   static void onExportPlaceholder1() {
