@@ -17,3 +17,4 @@
 [2507292220][d35ce9][FTR] Show selected item details in right panel
 [2507292313][3834de][FTR] Sync navigation panel with current view mode
 [2507292321][75aee2][FTR] Load mock data and render navigation dynamically
+[2507292327][1ba932][FTR] Render navigation with vault and conversation models

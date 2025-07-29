@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   window_manager: ^0.3.7
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
