@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'menu_constants.dart';
 import 'menu_router.dart';
+import 'search_filter_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,13 +42,10 @@ class ScaffoldWithMenu extends StatefulWidget {
 }
 
 class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
-  final TextEditingController _searchController = TextEditingController();
-  final TextEditingController _filterController = TextEditingController();
-
   @override
   void dispose() {
-    _searchController.dispose();
-    _filterController.dispose();
+    SearchFilterController.searchController.dispose();
+    SearchFilterController.filterController.dispose();
     super.dispose();
   }
 
@@ -74,8 +72,9 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                       Flexible(
                         flex: 1,
                         child: TextField(
-                          controller: _searchController,
-                          onChanged: (value) => print('Search: $value'),
+                          controller: SearchFilterController.searchController,
+                          onChanged: (value) =>
+                              debugPrint('Search updated: $value'),
                           decoration: InputDecoration(
                             hintText: 'Search...',
                             filled: true,
@@ -92,8 +91,9 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                       Flexible(
                         flex: 1,
                         child: TextField(
-                          controller: _filterController,
-                          onChanged: (value) => print('Filter: $value'),
+                          controller: SearchFilterController.filterController,
+                          onChanged: (value) =>
+                              debugPrint('Filter updated: $value'),
                           decoration: InputDecoration(
                             hintText: 'Filter...',
                             filled: true,
