@@ -229,19 +229,57 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                                     },
                                     children: [
                                       for (final convo in vault.conversations)
-                                        ListTile(
-                                          dense: true,
-                                          leading: const Icon(Icons.chat),
-                                          title: Text(convo.title),
-                                          subtitle: Text(DateFormat('yyyy-MM-dd HH:mm')
-                                              .format(convo.timestamp)),
-                                          trailing:
-                                              const Icon(Icons.chevron_right),
-                                          onTap: () {
-                                            GlobalState.selectedItemLabel.value =
-                                                'Selected: ${convo.title}';
-                                            GlobalState.selectedConversation
-                                                .value = convo;
+                                        ValueListenableBuilder<String?>(
+                                          valueListenable:
+                                              GlobalState.hoveredConversationTitle,
+                                          builder: (context, hovered, child) {
+                                            final isHovered = hovered == convo.title;
+                                            return MouseRegion(
+                                              cursor: SystemMouseCursors.click,
+                                              onEnter: (_) {
+                                                GlobalState.hoveredConversationTitle
+                                                    .value = convo.title;
+                                                debugPrint('Hover: ${convo.title}');
+                                              },
+                                              onExit: (_) {
+                                                if (GlobalState
+                                                        .hoveredConversationTitle
+                                                        .value ==
+                                                    convo.title) {
+                                                  GlobalState.hoveredConversationTitle
+                                                      .value = null;
+                                                }
+                                              },
+                                              child: ListTile(
+                                                dense: true,
+                                                leading: const Icon(Icons.chat),
+                                                title: Text(
+                                                  convo.title,
+                                                  style: isHovered
+                                                      ? Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.copyWith(
+                                                              fontWeight:
+                                                                  FontWeight.bold)
+                                                      : null,
+                                                ),
+                                                subtitle: Text(DateFormat('yyyy-MM-dd HH:mm')
+                                                    .format(convo.timestamp)),
+                                                trailing:
+                                                    const Icon(Icons.chevron_right),
+                                                tileColor: isHovered
+                                                    ? Theme.of(context).hoverColor
+                                                    : null,
+                                                onTap: () {
+                                                  GlobalState.selectedItemLabel
+                                                          .value =
+                                                      'Selected: ${convo.title}';
+                                                  GlobalState.selectedConversation
+                                                      .value = convo;
+                                                },
+                                              ),
+                                            );
                                           },
                                         ),
                                     ],
