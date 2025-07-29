@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../data/mock_data_loader.dart';
 
 /// Supported LLM models for CodexVault.
 enum LLMModel { gpt35, gemini15 }
@@ -23,4 +24,8 @@ class GlobalState {
   /// Number of loaded conversations.
   static final ValueNotifier<int> conversationCount =
       ValueNotifier<int>(0);
+
+  /// Loaded vaults and their conversations.
+  static final ValueNotifier<List<Vault>> conversationVaults =
+      ValueNotifier<List<Vault>>([]);
 }
