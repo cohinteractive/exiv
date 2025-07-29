@@ -259,29 +259,52 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                     margin: const EdgeInsets.all(8),
                     padding: const EdgeInsets.all(8),
                     color: Theme.of(context).colorScheme.surfaceVariant,
-                    child: Center(
-                      child: ValueListenableBuilder<String>(
-                        valueListenable: GlobalState.selectedItemLabel,
-                        builder: (context, label, child) {
-                          return Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    label,
-                                    style: Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                  const SizedBox(height: 8),
-                                  const Text('Conversation preview placeholder.'),
-                                ],
-                              ),
-                            ),
+                    child: ValueListenableBuilder<Conversation?>(
+                      valueListenable: GlobalState.selectedConversation,
+                      builder: (context, convo, child) {
+                        if (convo == null) {
+                          return const Center(
+                            child: Text('No conversation selected'),
                           );
-                        },
-                      ),
+                        }
+                        return Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  convo.title,
+                                  style: Theme.of(context).textTheme.headlineSmall,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  DateFormat('yyyy-MM-dd HH:mm').format(convo.timestamp),
+                                  style: Theme.of(context).textTheme.labelMedium,
+                                ),
+                                const SizedBox(height: 12),
+                                const Divider(),
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: const [
+                                        Text('User prompt placeholder'),
+                                        SizedBox(height: 8),
+                                        Text('Assistant response placeholder'),
+                                        Divider(),
+                                        Text('User prompt placeholder'),
+                                        SizedBox(height: 8),
+                                        Text('Assistant response placeholder'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),

@@ -18,3 +18,4 @@
 [2507292313][3834de][FTR] Sync navigation panel with current view mode
 [2507292321][75aee2][FTR] Load mock data and render navigation dynamically
 [2507292327][1ba932][FTR] Render navigation with vault and conversation models
+[2507292334][be4f57f][FTR] Populate detail panel with conversation preview
