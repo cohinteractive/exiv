@@ -3,6 +3,7 @@ import 'package:window_manager/window_manager.dart';
 import 'menu_constants.dart';
 import 'menu_router.dart';
 import 'search_filter_controller.dart';
+import 'filter_state.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -105,6 +106,40 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                             ),
                           ),
                         ),
+                      ),
+                      const SizedBox(width: 12),
+                      ValueListenableBuilder<String>(
+                        valueListenable: FilterState.selectedFilter,
+                        builder: (context, value, child) {
+                          return DropdownButton<String>(
+                            hint: const Text('Select Filter Type'),
+                            value: value,
+                            onChanged: (newValue) {
+                              if (newValue != null) {
+                                FilterState.selectedFilter.value = newValue;
+                                debugPrint('Filter type selected: $newValue');
+                              }
+                            },
+                            items: const [
+                              DropdownMenuItem(
+                                value: 'All',
+                                child: Text('All'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'Vaults',
+                                child: Text('Vaults'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'Conversations',
+                                child: Text('Conversations'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'Exchanges',
+                                child: Text('Exchanges'),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ],
                   ),
