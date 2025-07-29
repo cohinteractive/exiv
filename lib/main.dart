@@ -217,67 +217,17 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                     margin: const EdgeInsets.all(8),
                     padding: const EdgeInsets.all(8),
                     color: Theme.of(context).colorScheme.surfaceVariant,
-                    child: SingleChildScrollView(
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Conversation A1',
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'Date / Metadata',
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                              const Divider(),
-                              Text(
-                                'User:',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
-                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                              ),
-                              const SizedBox(height: 12),
-                              Text(
-                                'Assistant:',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
-                                'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                              ),
-                              const Divider(),
-                              Text(
-                                'User:',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                'Ut enim ad minim veniam, quis nostrud '
-                                'exercitation ullamco laboris nisi ut '
-                                'aliquip ex ea commodo consequat. ',
-                              ),
-                              const SizedBox(height: 12),
-                              Text(
-                                'Assistant:',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                'Duis aute irure dolor in reprehenderit in '
-                                'voluptate velit esse cillum dolore eu '
-                                'fugiat nulla pariatur.',
-                              ),
-                            ],
-                          ),
-                        ),
+                    child: Center(
+                      child: ValueListenableBuilder<ViewMode>(
+                        valueListenable: GlobalState.currentViewMode,
+                        builder: (context, mode, child) {
+                          final text =
+                              mode == ViewMode.context ? 'Viewing Context Mode' : 'Viewing All Items';
+                          return Text(
+                            text,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -393,6 +343,10 @@ class MenuBarWidget extends StatelessWidget {
         ),
         SubmenuButton(
           menuChildren: [
+            MenuItemButton(
+              onPressed: () => MenuRouter.handle(MenuActions.viewAll),
+              child: const Text('All'),
+            ),
             MenuItemButton(
               onPressed: () => MenuRouter.handle(MenuActions.viewContext),
               child: const Text('Context'),

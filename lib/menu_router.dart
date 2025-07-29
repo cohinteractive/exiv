@@ -21,8 +21,11 @@ class MenuRouter {
       case MenuActions.exitApp:
         MenuActionHandler.onExit();
         break;
+      case MenuActions.viewAll:
+        MenuActionHandler.onViewModeAll();
+        break;
       case MenuActions.viewContext:
-        MenuActionHandler.onViewContext();
+        MenuActionHandler.onViewModeContext();
         break;
       case MenuActions.selectModelGpt:
         MenuActionHandler.onSelectModelGPT();

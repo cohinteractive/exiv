@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 enum LLMModel { gpt35, gemini15 }
 
 /// Available view modes for the application.
-enum ViewMode { all, vault, conversation, exchange }
+enum ViewMode { all, context, vault, conversation, exchange }
 
 /// Provides global state notifiers for the UI.
 class GlobalState {

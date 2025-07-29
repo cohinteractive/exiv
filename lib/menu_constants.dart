@@ -5,6 +5,7 @@ class MenuActions {
   static const String exportPlaceholder2 = 'exportPlaceholder2';
   static const String exitApp = 'exitApp';
   static const String viewContext = 'viewContext';
+  static const String viewAll = 'viewAll';
   static const String selectModelGpt = 'selectModelGpt';
   static const String selectModelGemini = 'selectModelGemini';
 }
