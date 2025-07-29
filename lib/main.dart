@@ -158,7 +158,44 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                     margin: const EdgeInsets.all(8),
                     padding: const EdgeInsets.all(8),
                     color: Theme.of(context).colorScheme.surfaceVariant,
-                    child: const Center(child: Text('Navigation Panel')),
+                    child: ListView(
+                      children: const [
+                        ListTile(
+                          dense: true,
+                          title: Text('Vault A'),
+                          trailing: Icon(Icons.keyboard_arrow_down),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 16),
+                          child: ListTile(
+                            dense: true,
+                            title: Text('Conversation A1'),
+                            trailing: Icon(Icons.chevron_right),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 16),
+                          child: ListTile(
+                            dense: true,
+                            title: Text('Conversation A2'),
+                            trailing: Icon(Icons.chevron_right),
+                          ),
+                        ),
+                        ListTile(
+                          dense: true,
+                          title: Text('Vault B'),
+                          trailing: Icon(Icons.keyboard_arrow_down),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 16),
+                          child: ListTile(
+                            dense: true,
+                            title: Text('Conversation B1'),
+                            trailing: Icon(Icons.chevron_right),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
@@ -166,7 +203,69 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                     margin: const EdgeInsets.all(8),
                     padding: const EdgeInsets.all(8),
                     color: Theme.of(context).colorScheme.surfaceVariant,
-                    child: const Center(child: Text('Detail Panel')),
+                    child: SingleChildScrollView(
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Conversation A1',
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Date / Metadata',
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                              const Divider(),
+                              Text(
+                                'User:',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 4),
+                              const Text(
+                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                'Assistant:',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 4),
+                              const Text(
+                                'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
+                                'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                              ),
+                              const Divider(),
+                              Text(
+                                'User:',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 4),
+                              const Text(
+                                'Ut enim ad minim veniam, quis nostrud '
+                                'exercitation ullamco laboris nisi ut '
+                                'aliquip ex ea commodo consequat. ',
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                'Assistant:',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 4),
+                              const Text(
+                                'Duis aute irure dolor in reprehenderit in '
+                                'voluptate velit esse cillum dolore eu '
+                                'fugiat nulla pariatur.',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
