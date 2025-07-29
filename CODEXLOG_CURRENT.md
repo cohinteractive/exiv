@@ -20,3 +20,4 @@
 [2507292327][1ba932][FTR] Render navigation with vault and conversation models
 [2507292334][be4f57f][FTR] Populate detail panel with conversation preview
 [2507292342][2ce893][FTR][UI] Add hover and tap interactions for navigation
+[2507292354][2fce80][FTR][UI] Apply Material 3 theming and spacing

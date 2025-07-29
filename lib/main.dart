@@ -37,10 +37,10 @@ class CodexVaultApp extends StatelessWidget {
       title: 'CodexVault',
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Colors.blueGrey,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
       ),
       home: const ScaffoldWithMenu(),
-    );
+      ),
   }
 }
 
@@ -67,16 +67,19 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: const MenuBarWidget(),
       ),
-      body: Column(
-        children: [
+      body: SafeArea(
+        child: Column(
+          children: [
           Expanded(
             child: Column(
               children: [
                 Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.all(16),
             child: Material(
-              elevation: 1,
-              borderRadius: BorderRadius.circular(8),
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: SizedBox(
                 height: 48,
                 child: Padding(
@@ -167,8 +170,8 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                   minWidth: 200,
                   maxWidth: 500,
                     child: Container(
-                    margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     color: Theme.of(context).colorScheme.surfaceVariant,
                     child: ValueListenableBuilder<ViewMode>(
                       valueListenable: GlobalState.currentViewMode,
@@ -178,12 +181,12 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 8),
+                                    horizontal: 16, vertical: 8),
                                 child: Text(
                                   'Context Blocks',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .labelLarge,
+                                      .labelMedium,
                                 ),
                               ),
                               ListTile(
@@ -210,11 +213,11 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: 4, horizontal: 8),
+                                      horizontal: 16, vertical: 8),
                                   child: Text(
                                     'Vaults',
                                     style:
-                                        Theme.of(context).textTheme.labelLarge,
+                                        Theme.of(context).textTheme.labelMedium,
                                   ),
                                 ),
                                 for (final vault in vaults)
@@ -278,8 +281,8 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                                                   GlobalState.selectedConversation
                                                       .value = convo;
                                                 },
-                                              ),
-                                            );
+        ),
+      ),
                                           },
                                         ),
                                     ],
@@ -294,18 +297,25 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                 ),
                 Expanded(
                   child: Container(
-                    margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     color: Theme.of(context).colorScheme.surfaceVariant,
                     child: ValueListenableBuilder<Conversation?>(
                       valueListenable: GlobalState.selectedConversation,
                       builder: (context, convo, child) {
                         if (convo == null) {
-                          return const Center(
-                            child: Text('No conversation selected'),
+                          return Center(
+                            child: Text(
+                              'No conversation selected',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
                           );
                         }
                         return Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(16),
                             child: Column(
@@ -315,7 +325,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                                   convo.title,
                                   style: Theme.of(context).textTheme.headlineSmall,
                                 ),
-                                const SizedBox(height: 4),
+                                const SizedBox(height: 12),
                                 Text(
                                   DateFormat('yyyy-MM-dd HH:mm').format(convo.timestamp),
                                   style: Theme.of(context).textTheme.labelMedium,
@@ -326,14 +336,30 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                                   child: SingleChildScrollView(
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: const [
-                                        Text('User prompt placeholder'),
-                                        SizedBox(height: 8),
-                                        Text('Assistant response placeholder'),
-                                        Divider(),
-                                        Text('User prompt placeholder'),
-                                        SizedBox(height: 8),
-                                        Text('Assistant response placeholder'),
+                                      children: [
+                                        Text(
+                                          'User prompt placeholder',
+                                          style: Theme.of(context)
+                                              .textTheme.bodyMedium,
+                                        ),
+                                        const SizedBox(height: 12),
+                                        Text(
+                                          'Assistant response placeholder',
+                                          style: Theme.of(context)
+                                              .textTheme.bodyMedium,
+                                        ),
+                                        const Divider(),
+                                        Text(
+                                          'User prompt placeholder',
+                                          style: Theme.of(context)
+                                              .textTheme.bodyMedium,
+                                        ),
+                                        const SizedBox(height: 12),
+                                        Text(
+                                          'Assistant response placeholder',
+                                          style: Theme.of(context)
+                                              .textTheme.bodyMedium,
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -362,7 +388,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
                   ValueListenableBuilder<LLMModel>(
@@ -405,7 +431,8 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
               ),
             ),
           ),
-        ],
+          ],
+        ),
       ),
     );
   }
