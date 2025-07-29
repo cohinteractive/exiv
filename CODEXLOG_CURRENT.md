@@ -7,3 +7,4 @@
 [2507282354][a0eab6][REF] Improve search and filter bar styling
 [2507290053][5dc9b30][FTR] Add filter dropdown next to filter field
 [2507290108][6a7bde][FTR] Add split layout with two placeholder panels
+[2507290125][8eeca17][FTR] Make navigation panel resizable
