@@ -13,3 +13,4 @@
 [2507290530][e8a240][FTR] Display selected model in status bar
 [2507290745][eb1e2b6][FTR] Add selection state and status bar updater
 [2507290823][fecc47][REF] Centralize state with GlobalState singletons
+[2507290831][95e200][FTR] Implement view mode selection menu and state updates

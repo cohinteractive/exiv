@@ -34,6 +34,18 @@ class MenuActionHandler {
     print(MenuActions.viewContext);
   }
 
+  static void onViewModeAll() {
+    // ignore: avoid_print
+    print(MenuActions.viewAll);
+    GlobalState.currentViewMode.value = ViewMode.all;
+  }
+
+  static void onViewModeContext() {
+    // ignore: avoid_print
+    print(MenuActions.viewContext);
+    GlobalState.currentViewMode.value = ViewMode.context;
+  }
+
   static void onSelectModelGPT() {
     // ignore: avoid_print
     print(MenuActions.selectModelGpt);
