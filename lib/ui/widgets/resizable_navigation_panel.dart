@@ -41,9 +41,8 @@ class _ResizableNavigationPanelState extends State<ResizableNavigationPanel> {
             child: Container(
               width: 6,
               decoration: BoxDecoration(
-                color: _hovering
-                    ? Colors.grey.withOpacity(0.3)
-                    : Colors.transparent,
+                color:
+                    _hovering ? const Color(0xFF333333) : Colors.transparent,
               ),
             ),
           ),
