@@ -388,7 +388,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
               ),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
                   ValueListenableBuilder<LLMModel>(
@@ -432,9 +432,11 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
             ),
           ),
           ],
-        ),
-      ),
-    );
+        );
+      },
+    ),
+  ),
+);
   }
 }
 
