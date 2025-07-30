@@ -33,14 +33,36 @@ class CodexVaultApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const colorScheme = ColorScheme.dark(
+      background: Color(0xFF121212),
+      surface: Color(0xFF1E1E1E),
+      surfaceVariant: Color(0xFF2C2C2C),
+      primary: Colors.blueGrey,
+      onPrimary: Colors.white,
+      onSurface: Colors.white,
+      onBackground: Colors.white,
+    );
+
+    final baseTextTheme = ThemeData.dark().textTheme.apply(
+          bodyColor: Colors.white,
+          displayColor: Colors.white,
+        );
+
     return MaterialApp(
       title: 'CodexVault',
-      theme: ThemeData(
+      themeMode: ThemeMode.dark,
+      theme: ThemeData.from(colorScheme: colorScheme).copyWith(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
+        textTheme: baseTextTheme,
+        scaffoldBackgroundColor: colorScheme.background,
+        menuBarTheme: const MenuBarThemeData(
+          style: MenuStyle(
+            backgroundColor: MaterialStatePropertyAll(Color(0xFF1E1E1E)),
+          ),
+        ),
       ),
       home: const ScaffoldWithMenu(),
-      );
+    );
   }
 }
 
@@ -63,6 +85,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
   @override
 Widget build(BuildContext context) {
   return Scaffold(
+    backgroundColor: Theme.of(context).colorScheme.background,
     appBar: PreferredSize(
       preferredSize: const Size.fromHeight(kToolbarHeight),
       child: const MenuBarWidget(),
@@ -77,6 +100,7 @@ Widget build(BuildContext context) {
                 padding: EdgeInsets.all(horizontalPadding),
                 child: Material(
                   elevation: 2,
+                  color: Theme.of(context).colorScheme.surface,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -93,9 +117,12 @@ Widget build(BuildContext context) {
                                   SearchFilterController.searchController,
                               onChanged: (value) =>
                                   debugPrint('Search updated: $value'),
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.onSurface),
                               decoration: InputDecoration(
                                 hintText: 'Search...',
                                 prefixIcon: const Icon(Icons.search),
+                                hintStyle: const TextStyle(color: Colors.white60),
                                 filled: true,
                                 fillColor: Theme.of(context)
                                     .colorScheme
@@ -116,9 +143,12 @@ Widget build(BuildContext context) {
                                   SearchFilterController.filterController,
                               onChanged: (value) =>
                                   debugPrint('Filter updated: $value'),
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.onSurface),
                               decoration: InputDecoration(
                                 hintText: 'Filter...',
                                 prefixIcon: const Icon(Icons.filter_list),
+                                hintStyle: const TextStyle(color: Colors.white60),
                                 filled: true,
                                 fillColor: Theme.of(context)
                                     .colorScheme
@@ -324,6 +354,7 @@ Widget build(BuildContext context) {
                           );
                         }
                         return Card(
+                          color: Theme.of(context).colorScheme.surface,
                           elevation: 2,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -455,6 +486,7 @@ Widget build(BuildContext context) {
 Widget messageCard(BuildContext context, IconData icon, String text) {
   return Card(
     margin: const EdgeInsets.symmetric(vertical: 4),
+    color: Theme.of(context).colorScheme.surface,
     elevation: 1,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(8),
@@ -466,7 +498,13 @@ Widget messageCard(BuildContext context, IconData icon, String text) {
         children: [
           Icon(icon, size: 16, color: Theme.of(context).colorScheme.primary),
           const SizedBox(width: 8),
-          Expanded(child: Text(text)),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface),
+            ),
+          ),
         ],
       ),
     ),
@@ -479,6 +517,10 @@ class MenuBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MenuBar(
+      style: MenuStyle(
+        backgroundColor:
+            MaterialStateProperty.all(Theme.of(context).colorScheme.surface),
+      ),
       children: [
         SubmenuButton(
           menuChildren: [
