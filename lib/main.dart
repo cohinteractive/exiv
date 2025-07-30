@@ -6,7 +6,7 @@ import 'search_filter_controller.dart';
 import 'filter_state.dart';
 import 'state/global_state.dart';
 import 'data/mock_data_loader.dart';
-import 'ui/widgets/resizable_widget.dart';
+import 'ui/widgets/resizable_navigation_panel.dart';
 import 'package:intl/intl.dart';
 
 void main() async {
@@ -171,235 +171,193 @@ Widget build(BuildContext context) {
                 ),
               ),
               Expanded(
-                child: Row(
-                  children: [
-                    ResizableWidget(
-                      minWidth: 200,
-                      maxWidth: 500,
-                      child: Container(
-                        margin: EdgeInsets.all(horizontalPadding),
-                        padding: EdgeInsets.all(horizontalPadding),
-                        color:
-                            Theme.of(context).colorScheme.surfaceVariant,
-                        child: ValueListenableBuilder<ViewMode>(
-                          valueListenable: GlobalState.currentViewMode,
-                          builder: (context, mode, child) {
-                            if (mode == ViewMode.context) {
-                              return ListView(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 8),
-                                    child: Text(
-                                      'Context Blocks',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium,
-                                    ),
-                                  ),
-                                  ListTile(
-                                    dense: true,
-                                    leading: const Icon(
-                                        Icons.description_outlined),
-                                    title: const Text('Context Block A'),
-                                    onTap: () =>
-                                        GlobalState.selectedItemLabel.value =
-                                            'Selected: Context Block A',
-                                  ),
-                                  ListTile(
-                                    dense: true,
-                                    leading: const Icon(
-                                        Icons.description_outlined),
-                                    title: const Text('Context Block B'),
-                                    onTap: () =>
-                                        GlobalState.selectedItemLabel.value =
-                                            'Selected: Context Block B',
-                                  ),
-                                ],
-                              );
-                            }
-                            return ValueListenableBuilder<List<Vault>>(
-                              valueListenable:
-                                  GlobalState.conversationVaults,
-                              builder: (context, vaults, child) {
-                                return ListView(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 8),
-                                      child: Text(
-                                        'Vaults',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium,
-                                      ),
-                                    ),
-                                    for (final vault in vaults)
-                                      ExpansionTile(
-                                        leading: const Icon(Icons.folder),
-                                        title: Text(vault.name),
-                                        onExpansionChanged: (expanded) {
-                                          if (expanded) {
-                                            GlobalState.selectedItemLabel
-                                                .value = 'Selected: ${vault.name}';
-                                          }
-                                        },
-                                        children: [
-                                          for (final convo
-                                              in vault.conversations)
-                                            ValueListenableBuilder<String?>(
-                                              valueListenable: GlobalState
-                                                  .hoveredConversationTitle,
-                                              builder:
-                                                  (context, hovered, child) {
-                                                final isHovered =
-                                                    hovered ==
-                                                        convo.title;
-                                                return MouseRegion(
-                                                  cursor:
-                                                      SystemMouseCursors.click,
-                                                  onEnter: (_) {
-                                                    GlobalState
-                                                            .hoveredConversationTitle
-                                                            .value =
-                                                        convo.title;
-                                                    debugPrint(
-                                                        'Hover: ${convo.title}');
-                                                  },
-                                                  onExit: (_) {
-                                                    if (GlobalState
-                                                            .hoveredConversationTitle
-                                                            .value ==
-                                                        convo.title) {
-                                                      GlobalState
-                                                          .hoveredConversationTitle
-                                                          .value = null;
-                                                    }
-                                                  },
-                                                  child: ListTile(
-                                                    dense: true,
-                                                    leading: const Icon(
-                                                        Icons.chat),
-                                                    title: Text(
-                                                      convo.title,
-                                                      style: isHovered
-                                                          ? Theme.of(context)
-                                                              .textTheme
-                                                              .bodyMedium
-                                                              ?.copyWith(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)
-                                                          : null,
-                                                    ),
-                                                    subtitle: Text(DateFormat(
-                                                            'yyyy-MM-dd HH:mm')
-                                                        .format(
-                                                            convo.timestamp)),
-                                                    trailing: const Icon(
-                                                        Icons.chevron_right),
-                                                    tileColor: isHovered
-                                                        ? Theme.of(context)
-                                                            .hoverColor
-                                                        : null,
-                                                    onTap: () {
-                                                      GlobalState
-                                                              .selectedItemLabel
-                                                              .value =
-                                                          'Selected: ${convo.title}';
-                                                      GlobalState
-                                                              .selectedConversation
-                                                              .value =
-                                                          convo;
-                                                    },
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                        ],
-                                      ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.all(horizontalPadding),
-                        padding: EdgeInsets.all(horizontalPadding),
-                        color:
-                            Theme.of(context).colorScheme.surfaceVariant,
-                        child:
-                            ValueListenableBuilder<Conversation?>(
-                          valueListenable:
-                              GlobalState.selectedConversation,
-                          builder: (context, convo, child) {
-                            if (convo == null) {
-                              return Center(
+                child: ResizableNavigationPanel(
+                  navigation: Container(
+                    margin: EdgeInsets.all(horizontalPadding),
+                    padding: EdgeInsets.all(horizontalPadding),
+                    color: Theme.of(context).colorScheme.surfaceVariant,
+                    child: ValueListenableBuilder<ViewMode>(
+                      valueListenable: GlobalState.currentViewMode,
+                      builder: (context, mode, child) {
+                        if (mode == ViewMode.context) {
+                          return ListView(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
                                 child: Text(
-                                  'No conversation selected',
+                                  'Context Blocks',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyMedium,
+                                      .labelMedium,
                                 ),
-                              );
-                            }
-                            return Card(
-                              elevation: 2,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      convo.title,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall,
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Text(
-                                      DateFormat('yyyy-MM-dd HH:mm')
-                                          .format(convo.timestamp),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium,
-                                    ),
-                                    const SizedBox(height: 12),
-                                    const Divider(),
-                                    Expanded(
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: const [
-                                            Text('User prompt placeholder'),
-                                            SizedBox(height: 12),
-                                            Text('Assistant response placeholder'),
-                                            Divider(),
-                                            Text('User prompt placeholder'),
-                                            SizedBox(height: 12),
-                                            Text('Assistant response placeholder'),
-                                          ],
+                              ListTile(
+                                dense: true,
+                                leading: const Icon(Icons.description_outlined),
+                                title: const Text('Context Block A'),
+                                onTap: () =>
+                                    GlobalState.selectedItemLabel.value =
+                                        'Selected: Context Block A',
+                              ),
+                              ListTile(
+                                dense: true,
+                                leading: const Icon(Icons.description_outlined),
+                                title: const Text('Context Block B'),
+                                onTap: () =>
+                                    GlobalState.selectedItemLabel.value =
+                                        'Selected: Context Block B',
+                              ),
+                            ],
+                          );
+                        }
+                        return ValueListenableBuilder<List<Vault>>(
+                          valueListenable: GlobalState.conversationVaults,
+                          builder: (context, vaults, child) {
+                            return ListView(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  child: Text(
+                                    'Vaults',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium,
+                                  ),
+                                ),
+                                for (final vault in vaults)
+                                  ExpansionTile(
+                                    leading: const Icon(Icons.folder),
+                                    title: Text(vault.name),
+                                    onExpansionChanged: (expanded) {
+                                      if (expanded) {
+                                        GlobalState.selectedItemLabel.value =
+                                            'Selected: ${vault.name}';
+                                      }
+                                    },
+                                    children: [
+                                      for (final convo in vault.conversations)
+                                        ValueListenableBuilder<String?>(
+                                          valueListenable:
+                                              GlobalState.hoveredConversationTitle,
+                                          builder: (context, hovered, child) {
+                                            final isHovered = hovered == convo.title;
+                                            return MouseRegion(
+                                              cursor: SystemMouseCursors.click,
+                                              onEnter: (_) {
+                                                GlobalState.hoveredConversationTitle
+                                                    .value = convo.title;
+                                                debugPrint('Hover: ${convo.title}');
+                                              },
+                                              onExit: (_) {
+                                                if (GlobalState
+                                                        .hoveredConversationTitle
+                                                        .value ==
+                                                    convo.title) {
+                                                  GlobalState.hoveredConversationTitle
+                                                      .value = null;
+                                                }
+                                              },
+                                              child: ListTile(
+                                                dense: true,
+                                                leading: const Icon(Icons.chat),
+                                                title: Text(
+                                                  convo.title,
+                                                  style: isHovered
+                                                      ? Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.copyWith(
+                                                              fontWeight:
+                                                                  FontWeight.bold)
+                                                      : null,
+                                                ),
+                                                subtitle: Text(DateFormat('yyyy-MM-dd HH:mm')
+                                                    .format(convo.timestamp)),
+                                                trailing: const Icon(Icons.chevron_right),
+                                                tileColor: isHovered
+                                                    ? Theme.of(context).hoverColor
+                                                    : null,
+                                                onTap: () {
+                                                  GlobalState.selectedItemLabel.value =
+                                                      'Selected: ${convo.title}';
+                                                  GlobalState.selectedConversation.value = convo;
+                                                },
+                                              ),
+                                            );
+                                          },
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                    ],
+                                  ),
+                              ],
                             );
                           },
-                        ),
-                      ),
+                        );
+                      },
                     ),
-                  ],
+                  ),
+                  content: Container(
+                    margin: EdgeInsets.all(horizontalPadding),
+                    padding: EdgeInsets.all(horizontalPadding),
+                    color: Theme.of(context).colorScheme.surfaceVariant,
+                    child: ValueListenableBuilder<Conversation?>(
+                      valueListenable: GlobalState.selectedConversation,
+                      builder: (context, convo, child) {
+                        if (convo == null) {
+                          return Center(
+                            child: Text(
+                              'No conversation selected',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          );
+                        }
+                        return Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  convo.title,
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  DateFormat('yyyy-MM-dd HH:mm')
+                                      .format(convo.timestamp),
+                                  style: Theme.of(context).textTheme.labelMedium,
+                                ),
+                                const SizedBox(height: 12),
+                                const Divider(),
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: const [
+                                        Text('User prompt placeholder'),
+                                        SizedBox(height: 12),
+                                        Text('Assistant response placeholder'),
+                                        Divider(),
+                                        Text('User prompt placeholder'),
+                                        SizedBox(height: 12),
+                                        Text('Assistant response placeholder'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
               Container(
