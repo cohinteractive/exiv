@@ -68,13 +68,13 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
         child: const MenuBarWidget(),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-          Expanded(
-            child: Column(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final horizontalPadding = constraints.maxWidth < 600 ? 8.0 : 16.0;
+            return Column(
               children: [
                 Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(horizontalPadding),
             child: Material(
               elevation: 2,
               shape: RoundedRectangleBorder(
@@ -86,7 +86,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                   padding: const EdgeInsets.all(8),
                   child: Row(
                     children: [
-                      Flexible(
+                      Expanded(
                         flex: 1,
                         child: TextField(
                           controller: SearchFilterController.searchController,
@@ -105,7 +105,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      Flexible(
+                      Expanded(
                         flex: 1,
                         child: TextField(
                           controller: SearchFilterController.filterController,
@@ -170,8 +170,8 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                   minWidth: 200,
                   maxWidth: 500,
                     child: Container(
-                    margin: const EdgeInsets.all(16),
-                    padding: const EdgeInsets.all(16),
+                    margin: EdgeInsets.all(horizontalPadding),
+                    padding: EdgeInsets.all(horizontalPadding),
                     color: Theme.of(context).colorScheme.surfaceVariant,
                     child: ValueListenableBuilder<ViewMode>(
                       valueListenable: GlobalState.currentViewMode,
@@ -297,8 +297,8 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                 ),
                 Expanded(
                   child: Container(
-                    margin: const EdgeInsets.all(16),
-                    padding: const EdgeInsets.all(16),
+                    margin: EdgeInsets.all(horizontalPadding),
+                    padding: EdgeInsets.all(horizontalPadding),
                     color: Theme.of(context).colorScheme.surfaceVariant,
                     child: ValueListenableBuilder<Conversation?>(
                       valueListenable: GlobalState.selectedConversation,
@@ -388,7 +388,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
               child: Row(
                 children: [
                   ValueListenableBuilder<LLMModel>(

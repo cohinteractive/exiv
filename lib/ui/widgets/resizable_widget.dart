@@ -37,21 +37,30 @@ class _ResizableWidgetState extends State<ResizableWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(width: _width, child: widget.child),
-        MouseRegion(
-          cursor: SystemMouseCursors.resizeLeftRight,
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onHorizontalDragUpdate: (details) => _updateWidth(details.delta.dx),
-            child: Container(
-              width: 6,
-              color: Theme.of(context).dividerColor,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final maxAllowed =
+            constraints.maxWidth.clamp(widget.minWidth, widget.maxWidth);
+        final width = _width.clamp(widget.minWidth, maxAllowed);
+
+        return Row(
+          children: [
+            SizedBox(width: width, child: widget.child),
+            MouseRegion(
+              cursor: SystemMouseCursors.resizeLeftRight,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onHorizontalDragUpdate: (details) =>
+                    _updateWidth(details.delta.dx),
+                child: Container(
+                  width: 6,
+                  color: Theme.of(context).dividerColor,
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }
