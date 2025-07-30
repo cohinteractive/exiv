@@ -95,6 +95,7 @@ Widget build(BuildContext context) {
                                   debugPrint('Search updated: $value'),
                               decoration: InputDecoration(
                                 hintText: 'Search...',
+                                prefixIcon: const Icon(Icons.search),
                                 filled: true,
                                 fillColor: Theme.of(context)
                                     .colorScheme
@@ -117,6 +118,7 @@ Widget build(BuildContext context) {
                                   debugPrint('Filter updated: $value'),
                               decoration: InputDecoration(
                                 hintText: 'Filter...',
+                                prefixIcon: const Icon(Icons.filter_list),
                                 filled: true,
                                 fillColor: Theme.of(context)
                                     .colorScheme
@@ -229,7 +231,15 @@ Widget build(BuildContext context) {
                                 for (final vault in vaults)
                                   ExpansionTile(
                                     leading: const Icon(Icons.folder),
-                                    title: Text(vault.name),
+                                    title: Text(
+                                      vault.name,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(fontWeight: FontWeight.bold),
+                                    ),
+                                    tilePadding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 4),
                                     onExpansionChanged: (expanded) {
                                       if (expanded) {
                                         GlobalState.selectedItemLabel.value =
@@ -261,7 +271,8 @@ Widget build(BuildContext context) {
                                               },
                                               child: ListTile(
                                                 dense: true,
-                                                leading: const Icon(Icons.chat),
+                                                leading: const Icon(
+                                                    Icons.chat_bubble_outline),
                                                 title: Text(
                                                   convo.title,
                                                   style: isHovered
@@ -339,14 +350,26 @@ Widget build(BuildContext context) {
                                   child: SingleChildScrollView(
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: const [
-                                        Text('User prompt placeholder'),
-                                        SizedBox(height: 12),
-                                        Text('Assistant response placeholder'),
-                                        Divider(),
-                                        Text('User prompt placeholder'),
-                                        SizedBox(height: 12),
-                                        Text('Assistant response placeholder'),
+                                      children: [
+                                        messageCard(
+                                            context,
+                                            Icons.person,
+                                            'User prompt placeholder'),
+                                        const SizedBox(height: 8),
+                                        messageCard(
+                                            context,
+                                            Icons.smart_toy,
+                                            'Assistant response placeholder'),
+                                        const Divider(),
+                                        messageCard(
+                                            context,
+                                            Icons.person,
+                                            'User prompt placeholder'),
+                                        const SizedBox(height: 8),
+                                        messageCard(
+                                            context,
+                                            Icons.smart_toy,
+                                            'Assistant response placeholder'),
                                       ],
                                     ),
                                   ),
@@ -429,6 +452,27 @@ Widget build(BuildContext context) {
 
 }
 
+Widget messageCard(BuildContext context, IconData icon, String text) {
+  return Card(
+    margin: const EdgeInsets.symmetric(vertical: 4),
+    elevation: 1,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, size: 16, color: Theme.of(context).colorScheme.primary),
+          const SizedBox(width: 8),
+          Expanded(child: Text(text)),
+        ],
+      ),
+    ),
+  );
+}
+
 class MenuBarWidget extends StatelessWidget {
   const MenuBarWidget({super.key});
 
@@ -438,13 +482,15 @@ class MenuBarWidget extends StatelessWidget {
       children: [
         SubmenuButton(
           menuChildren: [
-            SubmenuButton(
-              menuChildren: [
+        SubmenuButton(
+          menuChildren: [
+            MenuItemButton(
+              leadingIcon: const Icon(Icons.insert_drive_file),
+              onPressed: () => MenuRouter.handle(MenuActions.openJson),
+              child: const Text('Json'),
+            ),
                 MenuItemButton(
-                  onPressed: () => MenuRouter.handle(MenuActions.openJson),
-                  child: const Text('Json'),
-                ),
-                MenuItemButton(
+                  leadingIcon: const Icon(Icons.lock_open),
                   onPressed: () => MenuRouter.handle(MenuActions.openVault),
                   child: const Text('Vault'),
                 ),
@@ -452,6 +498,7 @@ class MenuBarWidget extends StatelessWidget {
               child: const Text('Open'),
             ),
             SubmenuButton(
+              leadingIcon: const Icon(Icons.file_upload),
               menuChildren: [
                 MenuItemButton(
                   onPressed: () =>
@@ -467,6 +514,7 @@ class MenuBarWidget extends StatelessWidget {
               child: const Text('Export'),
             ),
             MenuItemButton(
+              leadingIcon: const Icon(Icons.exit_to_app),
               onPressed: () => MenuRouter.handle(MenuActions.exitApp),
               child: const Text('Exit'),
             ),
@@ -480,6 +528,7 @@ class MenuBarWidget extends StatelessWidget {
               child: const Text('All'),
             ),
             MenuItemButton(
+              leadingIcon: const Icon(Icons.view_list),
               onPressed: () => MenuRouter.handle(MenuActions.viewContext),
               child: const Text('Context'),
             ),
@@ -491,11 +540,13 @@ class MenuBarWidget extends StatelessWidget {
             SubmenuButton(
               menuChildren: [
                 MenuItemButton(
+                  leadingIcon: const Icon(Icons.smart_toy),
                   onPressed: () =>
                       MenuRouter.handle(MenuActions.selectModelGpt),
                   child: const Text('GPT 3.5-turbo'),
                 ),
                 MenuItemButton(
+                  leadingIcon: const Icon(Icons.memory),
                   onPressed: () =>
                       MenuRouter.handle(MenuActions.selectModelGemini),
                   child: const Text('Gemini 1.5'),
