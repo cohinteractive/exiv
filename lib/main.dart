@@ -40,7 +40,7 @@ class CodexVaultApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
       ),
       home: const ScaffoldWithMenu(),
-      ),
+      );
   }
 }
 
@@ -282,7 +282,7 @@ class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
                                                       .value = convo;
                                                 },
         ),
-      ),
+      );
                                           },
                                         ),
                                     ],
