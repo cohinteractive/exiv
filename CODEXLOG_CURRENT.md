@@ -27,3 +27,4 @@
 [2507300252][bce307][FTR][UI] Add icons to menus and message styling
 [2507301111][8dcd7d][FTR][REF] Add task completion repository
 [2507302236][48a751][FTR][UI] Implement dark theme across widgets
+[2507310102][cf4df7][BUG][UI] Ensure maximized window and delayed runApp
