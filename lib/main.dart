@@ -8,6 +8,7 @@ import 'state/global_state.dart';
 import 'ui/widgets/resizable_navigation_panel.dart';
 import 'package:intl/intl.dart';
 import 'models/models.dart';
+import 'services/raw_memory_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -254,8 +255,43 @@ Widget build(BuildContext context) {
                         return ValueListenableBuilder<List<Vault>>(
                           valueListenable: GlobalState.conversationVaults,
                           builder: (context, vaults, child) {
+                            final rawConvos =
+                                RawMemoryService.instance.conversations;
+                            final showRaw =
+                                mode == ViewMode.all || mode == ViewMode.raw;
                             return ListView(
                               children: [
+                                if (showRaw && rawConvos.isNotEmpty) ...[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 8),
+                                    child: Text(
+                                      'Raw Conversations',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium,
+                                    ),
+                                  ),
+                                  for (final raw in rawConvos)
+                                    ListTile(
+                                      dense: true,
+                                      leading:
+                                          const Icon(Icons.chat_bubble_outline),
+                                      title: Text(raw.title),
+                                      subtitle: Text(DateFormat('yyyy-MM-dd HH:mm')
+                                          .format(raw.timestamp)),
+                                      onTap: () {
+                                        final convo = Conversation(
+                                            title: raw.title,
+                                            timestamp: raw.timestamp);
+                                        GlobalState.selectedConversation.value =
+                                            convo;
+                                        GlobalState.selectedItemLabel.value =
+                                            'Selected: ${raw.title}';
+                                      },
+                                    ),
+                                  const Divider(),
+                                ],
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16, vertical: 8),
@@ -536,12 +572,18 @@ class MenuBarWidget extends StatelessWidget {
           menuChildren: [
             MenuItemButton(
               leadingIcon: const Icon(Icons.insert_drive_file),
-              onPressed: () => MenuRouter.handle(MenuActions.openJson),
+              onPressed: () => MenuRouter.handle(context, MenuActions.openJson),
               child: const Text('Json'),
+            ),
+            MenuItemButton(
+              leadingIcon: const Icon(Icons.insert_drive_file),
+              onPressed: () =>
+                  MenuRouter.handle(context, MenuActions.openRawJson),
+              child: const Text('Raw JSON'),
             ),
                 MenuItemButton(
                   leadingIcon: const Icon(Icons.lock_open),
-                  onPressed: () => MenuRouter.handle(MenuActions.openVault),
+                  onPressed: () => MenuRouter.handle(context, MenuActions.openVault),
                   child: const Text('Vault'),
                 ),
               ],
@@ -552,12 +594,12 @@ class MenuBarWidget extends StatelessWidget {
               menuChildren: [
                 MenuItemButton(
                   onPressed: () =>
-                      MenuRouter.handle(MenuActions.exportPlaceholder1),
+                      MenuRouter.handle(context, MenuActions.exportPlaceholder1),
                   child: const Text('Placeholder1'),
                 ),
                 MenuItemButton(
                   onPressed: () =>
-                      MenuRouter.handle(MenuActions.exportPlaceholder2),
+                      MenuRouter.handle(context, MenuActions.exportPlaceholder2),
                   child: const Text('Placeholder2'),
                 ),
               ],
@@ -565,7 +607,7 @@ class MenuBarWidget extends StatelessWidget {
             ),
             MenuItemButton(
               leadingIcon: const Icon(Icons.exit_to_app),
-              onPressed: () => MenuRouter.handle(MenuActions.exitApp),
+              onPressed: () => MenuRouter.handle(context, MenuActions.exitApp),
               child: const Text('Exit'),
             ),
           ],
@@ -574,12 +616,12 @@ class MenuBarWidget extends StatelessWidget {
         SubmenuButton(
           menuChildren: [
             MenuItemButton(
-              onPressed: () => MenuRouter.handle(MenuActions.viewAll),
+              onPressed: () => MenuRouter.handle(context, MenuActions.viewAll),
               child: const Text('All'),
             ),
             MenuItemButton(
               leadingIcon: const Icon(Icons.view_list),
-              onPressed: () => MenuRouter.handle(MenuActions.viewContext),
+              onPressed: () => MenuRouter.handle(context, MenuActions.viewContext),
               child: const Text('Context'),
             ),
           ],
@@ -592,13 +634,13 @@ class MenuBarWidget extends StatelessWidget {
                 MenuItemButton(
                   leadingIcon: const Icon(Icons.smart_toy),
                   onPressed: () =>
-                      MenuRouter.handle(MenuActions.selectModelGpt),
+                  MenuRouter.handle(context, MenuActions.selectModelGpt),
                   child: const Text('GPT 3.5-turbo'),
                 ),
                 MenuItemButton(
                   leadingIcon: const Icon(Icons.memory),
                   onPressed: () =>
-                      MenuRouter.handle(MenuActions.selectModelGemini),
+                  MenuRouter.handle(context, MenuActions.selectModelGemini),
                   child: const Text('Gemini 1.5'),
                 ),
               ],

@@ -5,7 +5,7 @@ import '../models/models.dart';
 enum LLMModel { gpt35, gemini15 }
 
 /// Available view modes for the application.
-enum ViewMode { all, context, vault, conversation, exchange }
+enum ViewMode { all, raw, context, vault, conversation, exchange }
 
 /// Provides global state notifiers for the UI.
 class GlobalState {
