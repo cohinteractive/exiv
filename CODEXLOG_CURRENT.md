@@ -31,3 +31,4 @@
 [2507310124][a303fb4][BUG][UI] Await window before runApp
 [2507310131][bc84a8][ERR] Define models and update imports
 [2507310204][3fc717][FTR][DATA] Add raw JSON loading system and in-memory model integration for ChatGPT exports
+[2507311412][e7b9a2][ERR][DATA] Improve error logging and JSON structure detection when loading raw ChatGPT exports
