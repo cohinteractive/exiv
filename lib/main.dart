@@ -12,20 +12,26 @@ import 'package:intl/intl.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
+
+  // Configure the window before showing it and start the app afterwards.
   windowManager.waitUntilReadyToShow().then((_) async {
     await windowManager.setMaximumSize(const Size(1920, 1080));
     await windowManager.maximize();
     await windowManager.setPreventClose(false);
+    await windowManager.focus();
     await windowManager.show();
+
+    // Load mock data into global state before running the app.
+    final vaults = MockDataLoader.load();
+    GlobalState.conversationVaults.value = vaults;
+    GlobalState.conversationCount.value =
+        vaults.fold(0, (sum, v) => sum + v.conversations.length);
+
+    // Start the Flutter application after the window is ready.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      runApp(const CodexVaultApp());
+    });
   });
-
-  // Load mock data into global state before running the app.
-  final vaults = MockDataLoader.load();
-  GlobalState.conversationVaults.value = vaults;
-  GlobalState.conversationCount.value =
-      vaults.fold(0, (sum, v) => sum + v.conversations.length);
-
-  runApp(const CodexVaultApp());
 }
 
 class CodexVaultApp extends StatelessWidget {
@@ -61,6 +67,7 @@ class CodexVaultApp extends StatelessWidget {
           ),
         ),
       ),
+      debugShowCheckedModeBanner: false,
       home: const ScaffoldWithMenu(),
     );
   }
@@ -75,6 +82,12 @@ class ScaffoldWithMenu extends StatefulWidget {
 }
 
 class _ScaffoldWithMenuState extends State<ScaffoldWithMenu> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
   @override
   void dispose() {
     SearchFilterController.searchController.dispose();
