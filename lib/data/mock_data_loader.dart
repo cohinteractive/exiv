@@ -1,19 +1,4 @@
-
-/// Represents a conversation item with a title and timestamp.
-class Conversation {
-  final String title;
-  final DateTime timestamp;
-
-  Conversation({required this.title, required this.timestamp});
-}
-
-/// Represents a vault containing a list of conversations.
-class Vault {
-  final String name;
-  final List<Conversation> conversations;
-
-  Vault({required this.name, required this.conversations});
-}
+import '../models/models.dart';
 
 /// Provides mock vault and conversation data for development.
 class MockDataLoader {
