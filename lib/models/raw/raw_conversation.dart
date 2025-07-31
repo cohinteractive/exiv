@@ -1,3 +1,5 @@
+import "raw_exchange.dart";
+
 class RawConversation {
   final String id;
   final String title;
