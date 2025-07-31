@@ -7,6 +7,7 @@ import 'filter_state.dart';
 import 'state/global_state.dart';
 import 'ui/widgets/resizable_navigation_panel.dart';
 import 'package:intl/intl.dart';
+import 'models/models.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

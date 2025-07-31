@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data/mock_data_loader.dart';
+import '../models/models.dart';
 
 /// Supported LLM models for CodexVault.
 enum LLMModel { gpt35, gemini15 }
