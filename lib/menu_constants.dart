@@ -1,5 +1,6 @@
 class MenuActions {
   static const String openJson = 'openJson';
+  static const String openRawJson = 'openRawJson';
   static const String openVault = 'openVault';
   static const String exportPlaceholder1 = 'exportPlaceholder1';
   static const String exportPlaceholder2 = 'exportPlaceholder2';
