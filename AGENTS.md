@@ -17,7 +17,6 @@
 - ChatGPT must generate all Codex prompts as a single markdown code block using triple backticks (` ``` `). Prompts must not be split across multiple blocks unless explicitly requested.
 
 ### Task Handling
-- If the user introduces a new feature, behavior, or goal not present in `TASKS.md` or `CONTEXT.md`, ChatGPT will prepare a Codex prompt to append the task to `TASKS.md`.
 - ChatGPT must review the synced contents of `TASKS.md` and `CONTEXT.md` at the start of each dev session to determine task novelty.
 - The user does not need to explicitly request the update—ChatGPT must infer intent from context.
 - Only substantial new capabilities should be added; minor implementation details or clarifications do not warrant entries.
