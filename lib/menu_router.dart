@@ -1,13 +1,12 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 
 import 'menu_constants.dart';
 import 'menu_action_handler.dart';
 import 'services/raw_loader.dart';
-import 'services/raw_memory_service.dart';
 import 'state/global_state.dart';
-import 'package:flutter/material.dart';
 
 /// Routes menu action strings to their corresponding handlers in [MenuActionHandler].
 class MenuRouter {
@@ -24,19 +23,19 @@ class MenuRouter {
         );
         if (result != null && result.files.single.path != null) {
           try {
-            await RawLoader.loadRawJson(File(result.files.single.path!));
-            GlobalState.conversationCount.value =
-                RawMemoryService.instance.conversations.length;
+            final convos =
+                await RawLoader.loadRawJson(File(result.files.single.path!));
+            GlobalState.conversations.value = convos;
+            GlobalState.conversationCount.value = convos.length;
+            GlobalState.selectedConversation.value = null;
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(
-                  'Loaded \${RawMemoryService.instance.conversations.length} conversations',
-                ),
+                content: Text('Loaded ${convos.length} conversations'),
               ),
             );
           } catch (e) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Failed to load JSON: \$e')),
+              SnackBar(content: Text('Failed to load JSON: $e')),
             );
           }
         }
@@ -68,3 +67,4 @@ class MenuRouter {
     }
   }
 }
+

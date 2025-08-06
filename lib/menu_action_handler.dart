@@ -5,13 +5,11 @@ class MenuActionHandler {
   static void onOpenJson() {
     // ignore: avoid_print
     print(MenuActions.openJson);
-    GlobalState.conversationCount.value = 42;
   }
 
   static void onOpenVault() {
     // ignore: avoid_print
     print(MenuActions.openVault);
-    GlobalState.conversationCount.value = 42;
   }
 
   static void onExportPlaceholder1() {

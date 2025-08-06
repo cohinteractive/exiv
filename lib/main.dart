@@ -8,7 +8,6 @@ import 'state/global_state.dart';
 import 'ui/widgets/resizable_navigation_panel.dart';
 import 'package:intl/intl.dart';
 import 'models/models.dart';
-import 'services/raw_memory_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -252,130 +251,167 @@ Widget build(BuildContext context) {
                             ],
                           );
                         }
-                        return ValueListenableBuilder<List<Vault>>(
-                          valueListenable: GlobalState.conversationVaults,
-                          builder: (context, vaults, child) {
-                            final rawConvos =
-                                RawMemoryService.instance.conversations;
-                            final showRaw =
-                                mode == ViewMode.all || mode == ViewMode.raw;
-                            return ListView(
-                              children: [
-                                if (showRaw && rawConvos.isNotEmpty) ...[
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 8),
-                                    child: Text(
-                                      'Raw Conversations',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium,
-                                    ),
-                                  ),
-                                  for (final raw in rawConvos)
-                                    ListTile(
-                                      dense: true,
-                                      leading:
-                                          const Icon(Icons.chat_bubble_outline),
-                                      title: Text(raw.title),
-                                      subtitle: Text(DateFormat('yyyy-MM-dd HH:mm')
-                                          .format(raw.timestamp)),
-                                      onTap: () {
-                                        final convo = Conversation(
-                                            title: raw.title,
-                                            timestamp: raw.timestamp);
-                                        GlobalState.selectedConversation.value =
-                                            convo;
-                                        GlobalState.selectedItemLabel.value =
-                                            'Selected: ${raw.title}';
-                                      },
-                                    ),
-                                  const Divider(),
-                                ],
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 8),
-                                  child: Text(
-                                    'Vaults',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelMedium,
-                                  ),
-                                ),
-                                for (final vault in vaults)
-                                  ExpansionTile(
-                                    leading: const Icon(Icons.folder),
-                                    title: Text(
-                                      vault.name,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(fontWeight: FontWeight.bold),
-                                    ),
-                                    tilePadding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 4),
-                                    onExpansionChanged: (expanded) {
-                                      if (expanded) {
-                                        GlobalState.selectedItemLabel.value =
-                                            'Selected: ${vault.name}';
-                                      }
-                                    },
-                                    children: [
-                                      for (final convo in vault.conversations)
-                                        ValueListenableBuilder<String?>(
-                                          valueListenable:
-                                              GlobalState.hoveredConversationTitle,
-                                          builder: (context, hovered, child) {
-                                            final isHovered = hovered == convo.title;
-                                            return MouseRegion(
-                                              cursor: SystemMouseCursors.click,
-                                              onEnter: (_) {
-                                                GlobalState.hoveredConversationTitle
-                                                    .value = convo.title;
-                                                debugPrint('Hover: ${convo.title}');
-                                              },
-                                              onExit: (_) {
-                                                if (GlobalState
-                                                        .hoveredConversationTitle
-                                                        .value ==
-                                                    convo.title) {
-                                                  GlobalState.hoveredConversationTitle
-                                                      .value = null;
-                                                }
-                                              },
-                                              child: ListTile(
-                                                dense: true,
-                                                leading: const Icon(
-                                                    Icons.chat_bubble_outline),
-                                                title: Text(
-                                                  convo.title,
-                                                  style: isHovered
-                                                      ? Theme.of(context)
-                                                          .textTheme
-                                                          .bodyMedium
-                                                          ?.copyWith(
-                                                              fontWeight:
-                                                                  FontWeight.bold)
-                                                      : null,
-                                                ),
-                                                subtitle: Text(DateFormat('yyyy-MM-dd HH:mm')
+                        return ValueListenableBuilder<List<Conversation>>(
+                          valueListenable: GlobalState.conversations,
+                          builder: (context, conversations, _) {
+                            return ValueListenableBuilder<List<Vault>>(
+                              valueListenable: GlobalState.conversationVaults,
+                              builder: (context, vaults, _) {
+                                final showConvos =
+                                    mode == ViewMode.all ||
+                                        mode == ViewMode.raw ||
+                                        mode == ViewMode.conversation;
+                                final showVaults =
+                                    mode == ViewMode.all ||
+                                        mode == ViewMode.vault;
+                                return ListView(
+                                  children: [
+                                    if (showConvos)
+                                      if (conversations.isEmpty)
+                                        const Padding(
+                                          padding: EdgeInsets.all(16),
+                                          child: Text('No conversations loaded'),
+                                        )
+                                      else ...[
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 8),
+                                          child: Text(
+                                            'Conversations',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelMedium,
+                                          ),
+                                        ),
+                                        for (final convo in conversations)
+                                          ListTile(
+                                            dense: true,
+                                            leading: const Icon(
+                                                Icons.chat_bubble_outline),
+                                            title: Text(convo.title),
+                                            subtitle: Text(
+                                                DateFormat('yyyy-MM-dd HH:mm')
                                                     .format(convo.timestamp)),
-                                                trailing: const Icon(Icons.chevron_right),
-                                                tileColor: isHovered
-                                                    ? Theme.of(context).hoverColor
-                                                    : null,
-                                                onTap: () {
-                                                  GlobalState.selectedItemLabel.value =
-                                                      'Selected: ${convo.title}';
-                                                  GlobalState.selectedConversation.value = convo;
+                                            onTap: () {
+                                              GlobalState.selectedConversation
+                                                  .value = convo;
+                                              GlobalState.selectedItemLabel
+                                                  .value =
+                                                  'Selected: ${convo.title}';
+                                            },
+                                          ),
+                                        if (showVaults && vaults.isNotEmpty)
+                                          const Divider(),
+                                      ],
+                                    if (showVaults && vaults.isNotEmpty) ...[
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 8),
+                                        child: Text(
+                                          'Vaults',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium,
+                                        ),
+                                      ),
+                                      for (final vault in vaults)
+                                        ExpansionTile(
+                                          leading: const Icon(Icons.folder),
+                                          title: Text(
+                                            vault.name,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          ),
+                                          tilePadding: const EdgeInsets
+                                              .symmetric(
+                                                  horizontal: 8,
+                                                  vertical: 4),
+                                          onExpansionChanged: (expanded) {
+                                            if (expanded) {
+                                              GlobalState
+                                                      .selectedItemLabel.value =
+                                                  'Selected: ${vault.name}';
+                                            }
+                                          },
+                                          children: [
+                                            for (final convo in vault
+                                                .conversations)
+                                              ValueListenableBuilder<String?>(
+                                                valueListenable: GlobalState
+                                                    .hoveredConversationTitle,
+                                                builder:
+                                                    (context, hovered, child) {
+                                                  final isHovered =
+                                                      hovered == convo.title;
+                                                  return MouseRegion(
+                                                    cursor:
+                                                        SystemMouseCursors.click,
+                                                    onEnter: (_) {
+                                                      GlobalState
+                                                          .hoveredConversationTitle
+                                                          .value = convo.title;
+                                                    },
+                                                    onExit: (_) {
+                                                      if (GlobalState
+                                                              .hoveredConversationTitle
+                                                              .value ==
+                                                          convo.title) {
+                                                        GlobalState
+                                                            .hoveredConversationTitle
+                                                            .value = null;
+                                                      }
+                                                    },
+                                                    child: ListTile(
+                                                      dense: true,
+                                                      leading: const Icon(Icons
+                                                          .chat_bubble_outline),
+                                                      title: Text(
+                                                        convo.title,
+                                                        style: isHovered
+                                                            ? Theme.of(context)
+                                                                .textTheme
+                                                                .bodyMedium
+                                                                ?.copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)
+                                                            : null,
+                                                      ),
+                                                      subtitle: Text(
+                                                          DateFormat(
+                                                                  'yyyy-MM-dd HH:mm')
+                                                              .format(convo
+                                                                  .timestamp)),
+                                                      trailing: const Icon(
+                                                          Icons.chevron_right),
+                                                      tileColor: isHovered
+                                                          ? Theme.of(context)
+                                                              .hoverColor
+                                                          : null,
+                                                      onTap: () {
+                                                        GlobalState
+                                                                .selectedItemLabel
+                                                                .value =
+                                                            'Selected: ${convo.title}';
+                                                        GlobalState
+                                                                .selectedConversation
+                                                                .value =
+                                                            convo;
+                                                      },
+                                                    ),
+                                                  );
                                                 },
                                               ),
-                                            );
-                                          },
+                                          ],
                                         ),
                                     ],
-                                  ),
-                              ],
+                                  ],
+                                );
+                              },
                             );
                           },
                         );
@@ -424,27 +460,25 @@ Widget build(BuildContext context) {
                                 Expanded(
                                   child: SingleChildScrollView(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        messageCard(
-                                            context,
-                                            Icons.person,
-                                            'User prompt placeholder'),
-                                        const SizedBox(height: 8),
-                                        messageCard(
-                                            context,
-                                            Icons.smart_toy,
-                                            'Assistant response placeholder'),
-                                        const Divider(),
-                                        messageCard(
-                                            context,
-                                            Icons.person,
-                                            'User prompt placeholder'),
-                                        const SizedBox(height: 8),
-                                        messageCard(
-                                            context,
-                                            Icons.smart_toy,
-                                            'Assistant response placeholder'),
+                                        for (var i = 0;
+                                            i < convo.exchanges.length;
+                                            i++) ...[
+                                          messageCard(
+                                              context,
+                                              Icons.person,
+                                              convo.exchanges[i].prompt),
+                                          const SizedBox(height: 8),
+                                          messageCard(
+                                              context,
+                                              Icons.smart_toy,
+                                              convo.exchanges[i].response),
+                                          if (i !=
+                                              convo.exchanges.length - 1)
+                                            const Divider(),
+                                        ],
                                       ],
                                     ),
                                   ),

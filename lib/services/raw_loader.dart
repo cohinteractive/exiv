@@ -1,24 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../models/raw/raw_conversation.dart';
-import '../models/raw/raw_exchange.dart';
-import 'raw_memory_service.dart';
 import 'package:flutter/foundation.dart';
 
+import '../models/models.dart';
+
 class RawLoader {
-  /// Loads a ChatGPT raw JSON export [file] into memory.
-  static Future<void> loadRawJson(File file) async {
+  /// Loads a ChatGPT raw JSON export [file] and returns parsed conversations.
+  static Future<List<Conversation>> loadRawJson(File file) async {
     try {
       final text = await file.readAsString();
       final dynamic data = jsonDecode(text);
-
-      debugPrint('Decoded JSON runtimeType: ${data.runtimeType}');
-      if (data is Map) {
-        debugPrint('Top-level keys: ${data.keys.toList()}');
-      } else if (data is List && data.isNotEmpty && data.first is Map) {
-        debugPrint('First element keys: ${(data.first as Map).keys.toList()}');
-      }
 
       dynamic convData;
       if (data is Map && data.containsKey('mapping')) {
@@ -35,19 +27,15 @@ class RawLoader {
         throw FormatException('Invalid conversations list');
       }
 
-      final parsed = <RawConversation>[];
+      final parsed = <Conversation>[];
       for (final conv in convData) {
         if (conv is! Map) continue;
-
-        if (!conv.containsKey('title')) {
-          throw FormatException('Conversation missing title field');
+        if (!conv.containsKey('title') || !conv.containsKey('mapping')) {
+          continue;
         }
-        if (!conv.containsKey('mapping')) {
-          throw FormatException('Conversation missing mapping field');
-        }
-        final dynamic ctRaw = conv['create_time'] ?? conv['createTime'];
+        final ctRaw = conv['create_time'] ?? conv['createTime'];
         if (ctRaw == null) {
-          throw FormatException('Conversation missing create_time field');
+          continue;
         }
 
         final id = conv['id']?.toString() ?? '';
@@ -55,6 +43,7 @@ class RawLoader {
         final timestamp = ctRaw is num
             ? DateTime.fromMillisecondsSinceEpoch((ctRaw * 1000).toInt())
             : DateTime.tryParse(ctRaw.toString()) ?? DateTime.now();
+
         final mapping = conv['mapping'];
         if (mapping is! Map) continue;
 
@@ -69,7 +58,7 @@ class RawLoader {
           return 0;
         });
 
-        final exchanges = <RawExchange>[];
+        final exchanges = <Exchange>[];
         String? prompt;
         String? idHolder;
         DateTime? tsHolder;
@@ -88,7 +77,7 @@ class RawLoader {
             idHolder = message['id']?.toString() ?? msg['id']?.toString();
             tsHolder = msgTime;
           } else if (role == 'assistant' && prompt != null) {
-            exchanges.add(RawExchange(
+            exchanges.add(Exchange(
               id: idHolder ?? message['id']?.toString() ?? '',
               prompt: prompt,
               response: text,
@@ -99,13 +88,11 @@ class RawLoader {
             tsHolder = null;
           }
         }
-        parsed.add(RawConversation(
+        parsed.add(Conversation(
             id: id, title: title, timestamp: timestamp, exchanges: exchanges));
       }
 
-      final memory = RawMemoryService.instance;
-      memory.clear();
-      memory.addAll(parsed);
+      return parsed;
     } catch (e, stack) {
       debugPrint('Error loading raw JSON: $e');
       debugPrint(stack.toString());
@@ -113,3 +100,4 @@ class RawLoader {
     }
   }
 }
+
