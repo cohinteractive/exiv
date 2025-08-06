@@ -7,11 +7,23 @@ class MockDataLoader {
     final now = DateTime.now();
     return [
       Vault(name: 'Vault A', conversations: [
-        Conversation(title: 'Conversation A1', timestamp: now.subtract(const Duration(days: 1))),
-        Conversation(title: 'Conversation A2', timestamp: now.subtract(const Duration(days: 2))),
+        Conversation(
+            id: 'a1',
+            title: 'Conversation A1',
+            timestamp: now.subtract(const Duration(days: 1)),
+            exchanges: []),
+        Conversation(
+            id: 'a2',
+            title: 'Conversation A2',
+            timestamp: now.subtract(const Duration(days: 2)),
+            exchanges: []),
       ]),
       Vault(name: 'Vault B', conversations: [
-        Conversation(title: 'Conversation B1', timestamp: now.subtract(const Duration(days: 3))),
+        Conversation(
+            id: 'b1',
+            title: 'Conversation B1',
+            timestamp: now.subtract(const Duration(days: 3)),
+            exchanges: []),
       ]),
     ];
   }

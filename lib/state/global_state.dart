@@ -25,6 +25,10 @@ class GlobalState {
   static final ValueNotifier<int> conversationCount =
       ValueNotifier<int>(0);
 
+  /// Loaded conversations from the most recently opened file.
+  static final ValueNotifier<List<Conversation>> conversations =
+      ValueNotifier<List<Conversation>>([]);
+
   /// Loaded vaults and their conversations.
   static final ValueNotifier<List<Vault>> conversationVaults =
       ValueNotifier<List<Vault>>([]);
